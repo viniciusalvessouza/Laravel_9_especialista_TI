@@ -20,6 +20,7 @@
             Email: {{$user->email}}
              |<a href="{{route('users.edit',$user->id )}}">Editar </a>
              |<a href="{{route('users.show',$user->id )}}">Ver detalhes </a>
+             |<a href="{{route('comments.index',$user->id )}}">Ver Comentarios </a>
         </li>
     @endforeach
 

@@ -41,4 +41,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    //aceita os dois tipos, string ou null
+    public function getUsers(string|null $search = '')
+    {
+         //nesse where sai uma query passada por parametros 
+            //tenho que rever pois acho q o comando para retornar a query é outro
+        //$users = $this->model->where('name','LIKE',"%{$request->search}%")->get();
+        
+        //usando funcao callback dessa forma da pra ser mais esperto, ...
+            // organizado e engenhoso
+
+        $users = $this->where(function ($query) use ($search){
+            if($search)
+            {
+                $query->where('email',$search);
+                $query->orWhere('name','LIKE',"%{$search}%");
+            }
+        })->get();
+
+        return $users;
+    }
+
+    public function comments()
+    {
+        //os dois ultimos parametros sao opcionais pois sao nomes padrao, mas coloquei pra lembrar deles
+        //has many, um usuario tem muitos comentarios
+        return $this->hasMany(Comment::class,'user_id','id');
+    }
 }

@@ -15,24 +15,10 @@
         a variavel errors eh criada pelo Laravel, eu nao criei ela, soh uso    
     --}}
 
-    @if($errors->any())
-		<ul class=’errors’>
-			@foreach($errors->all() as $error)
-				<li class=’error’> {{$error}} </li>
-			@endforeach
-		</ul>
-	@endif
+    @include('users.includes.validations-form')
 
     <form action="{{route('users.store')}}" method="POST">
-        @csrf
-        
-        <label for="name">Nome: </label>  <input type='text' id='name' name='name' placeholder='Nome'> <br>
-
-        <label for="email">Email: </label><input type='email' id='email' name='email' placeholder='E-mail'> <br>
-
-        <label for="password">Senha: </label><input type='password' id='password' name='password' placeholder='Senha'> <br>
-
-        <input type="submit" value='enviar'>
+        @include('users._partials.form')
     </form>
 
 

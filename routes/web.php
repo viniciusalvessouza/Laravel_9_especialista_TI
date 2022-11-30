@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 //esse parametro name eh para referenciar a rota nas views  
 
@@ -24,6 +26,10 @@ function(){
 
     Route::get('/', [UserController::class,'index'])
         ->name('users.index');
+
+    //comments
+    Route::get('{id}/comments',[CommentController::class, 'index'])
+    ->name('comments.index');
 
     //formularios
     Route::get('{id}/edit',[UserController::class,'edit']  )->name('users.edit');
