@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use app\Models\User;
 
 class Comment extends Model
 {
@@ -25,6 +26,6 @@ class Comment extends Model
     public function User()
     {
         // belongsTos = os comentarios soh tem 1 usuario
-        return $this->belongsTo(Uses::class);
+        return $this->belongsTo(User::class);
     }
 }

@@ -17,7 +17,7 @@
 
    @include('users.includes.validations-form')
 
-    <form action="{{route('users.update',$user->id)}}" method="post">
+    <form action="{{route('users.update',$user->id)}}" method="post" enctype="multipart/form-data">
         {{--Nao sei se esse arroba eh a melhor forma de fazer isso,
             achei gambiarra, mas ta no video--}}
         @method('PUT')

@@ -7,6 +7,14 @@
     <title>@yield('title') - Especializa TI</title>
 </head>
 <body>
+    {{-- faco um post para ele seguir o "caminho breeze" (pq usei o breeze) de logout, pelas
+     rota do arquivo auth.php
+    --}}
+    <form action="{{route('logout')}}" method="POST">
+        @csrf
+        <button type="submit"> logout </button>
+    </form>
+    
     <div class="app">
         @yield('content')
     </div>

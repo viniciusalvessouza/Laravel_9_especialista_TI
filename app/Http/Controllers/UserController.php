@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUpdateUserFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -79,7 +81,25 @@ class UserController extends Controller
         
         $data = $request->all();
         $data['password'] = bcrypt($request->password);
+
+        //dd($request->file('image'));
+        //dd($request->image); //forma alternativa
         
+        if($request->file('image'))
+        {
+            //users representa a pasta em que vai armazenar, dentro do local ...
+                //que eu defini nas configuracoes
+            $data['image'] = $request->file('image')->store('users');
+
+            //pega a extensao fo arquivo
+            //$extension =$request->image->getClientoriginalExtension();
+
+            //storeAs permite definir um nome e uma pasta para o arquivo
+            //$data['image'] = $request->file('image')->storeAs('users',now().".{$extension}");
+        }  
+        else{
+            $data['image'] = '';
+        }
         //dessa forma eu posso retornar a pagina do usuario criado
         //$user = $this->model->create($data);
         //return redirect()->route('index.show',$user->id);
@@ -108,7 +128,19 @@ class UserController extends Controller
         // $data = $request->all();
         $data = $request->only((['name','email']));
         if($request->password)
-            $data['password'] = bcrypt($request);
+            $data['password'] = bcrypt($request->password);
+        //dd($request->password,$data['password']);
+        if($request->image)
+        {   
+            if($user->imagem)
+                if(Storage::exists($user->image))
+                {
+                    Storage::delete($user->image);
+                }
+            $data['image'] = $request->image->store('users');
+        }
+
+        //dd($data['image']);
 
         $user->update($data);
         //dd($request->all());
@@ -120,9 +152,14 @@ class UserController extends Controller
     {
         if(!$user = $this->model->find($id))
             return redirect()->route('users.index');
-
+        //essa eu fiz por conta para apagar a imagem quando apago o usuario
+        $img = '';
+        if($user->image)
+            $img= $user->image;
+            
         $user->delete();
-
+        echo Storage::delete($img);
+        
         return redirect()->route('users.index');
     }
 }

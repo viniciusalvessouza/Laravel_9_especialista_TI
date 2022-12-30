@@ -4,32 +4,33 @@
 @section('content')
     
     <h1> 
-        Comentarios do usuario {{$user->name}}
-        <a href="{{route('users.create')}}">+ </a> <br>
+        Comentarios do usuario  ----- {{$user->name}}
+        <a href="{{route('comments.create',$user->id)}}">+ </a> <br>
         <a href="{{route('users.index')}}">Voltar </a>
     </h1>
 
-    <form action="{{route('users.index')}}" method="get">
+    <form action="{{route('comments.index',$user->id)}}" method="get">
         <input type="text" name="search" placeholder="Pesquisar">
         <button>Pesquisar</button>
     </form>
 
-    <ul>
 
         <table>
             <thead>
-            <th> <td> Comentario</td> <td>Visibilidade</td> </th>
+            <tr> <th> Comentario</th> <th>Visibilidade</th> </tr>
             </thead>
             <tbody>
                 @foreach($comments as $comment)
-                    <th>
+                    <tr>
                         <td> {{$comment->body}} </td>
-                        <td> {{$comment->visible}} </td>
-                    </th>
+                        <td> {{$comment->visible ? 'SIM': 'NAO'}} </td>
+                        <td> <a href={{route('comment.edit',[$user->id,$comment->id])}}>editar </a> </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
 
-    </ul>
+
+    
 
 @endsection     

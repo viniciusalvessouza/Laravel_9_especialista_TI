@@ -10,8 +10,8 @@
         <li>{{$user->email}}</li>
         <li>{{$user->created_at}}</li>
     </ul>
-
-    <form action="{{route('users.delete',$user->id)}}" method="POST">
+    <!-- nao sei se o ectype precisa etar aqui -->
+    <form action="{{route('users.delete',$user->id)}}" method="POST" enctype="multipart/form-data">
         @method('DELETE')
         @csrf
 
